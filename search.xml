@@ -1,287 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>mac安装Homestead</title>
-    <url>/2020/08/30/homestaed-vagrant/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>Laravel 致力于让整个 PHP 开发体验变的更愉快，包括你的本地开发环境。 Vagrant 提供了一种简单、优雅的方式来管理和配置虚拟主机。</p>
-<h2 id="安装与设置"><a href="#安装与设置" class="headerlink" title="安装与设置"></a>安装与设置</h2><h3 id="1-安装VirtualBox-6-x"><a href="#1-安装VirtualBox-6-x" class="headerlink" title="1.安装VirtualBox 6.x"></a>1.安装VirtualBox 6.x</h3><p>下载<a href="https://download.virtualbox.org/virtualbox/6.1.12/VirtualBox-6.1.12-139181-OSX.dmg">VirtualBox</a></p>
-<h3 id="2-安装Vagrant"><a href="#2-安装Vagrant" class="headerlink" title="2.安装Vagrant"></a>2.安装Vagrant</h3><p>下载<a href="https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.dmg">Vagrant</a></p>
-<h3 id="3-安装-Homestead-Vagrant-Box"><a href="#3-安装-Homestead-Vagrant-Box" class="headerlink" title="3.安装 Homestead Vagrant Box"></a>3.安装 Homestead Vagrant Box</h3><p>一旦将 VirtualBox 和 Vagrant 都安装好之后，你可以在终端执行下面的命令将 laravel/homestead box 添加到 Vagrant 中安装。你可能需要几分钟的时间来下载 box，因为它取决于你的网络连接速度：</p>
-<h4 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vagrant box add laravel/homestead</span><br></pre></td></tr></table></figure>
-<p>然后按3，选择virtualbox回车</p>
-<h4 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h4><p>由于这个网络原因这个下载特别慢，提前把这个包放到百度放盘，可自行下载<br>链接: <a href="https://pan.baidu.com/s/1Cfk-KdFKY70ylGnP_Y-bkA">https://pan.baidu.com/s/1Cfk-KdFKY70ylGnP_Y-bkA</a>  密码: s71j<br>这个下载后解压进入当前目录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vagrant box add metadata.json</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装-Homestead"><a href="#安装-Homestead" class="headerlink" title="安装 Homestead"></a>安装 Homestead</h3><p>你可以通过克隆代码来安装 Homestead。建议将代码克隆到你的「home」目录下的 Homestead 文件夹中，这样 Homestead box 就可以作为你的所有 Laravel 项目的主机：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/laravel/homestead.git ~/Homestead</span><br></pre></td></tr></table></figure>
-
-<p>因为 Homestead 的 master 分支并不是稳定的，你应该使用打过标签的稳定版本。您可以在 GitHub Release Page 上找到最新的稳定版。或者，你可以查看包含最新稳定版本的 release 分支：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/Homestead</span><br><span class="line"></span><br><span class="line">git checkout release</span><br></pre></td></tr></table></figure>
-
-<p>一旦克隆 Homestead 代码完成以后，在 Homestead 目录中使用 bash init.sh 命令来创建 Homestead.yaml 配置文件。Homestead.yaml 文件将被放在 Homestead 目录中：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">bash init.sh</span><br></pre></td></tr></table></figure>
-<h3 id="配置共享文件夹"><a href="#配置共享文件夹" class="headerlink" title="配置共享文件夹#"></a>配置共享文件夹#</h3><p>Homestead.yaml 文件的 folders 属性里列出了所有与 Homestead 环境共享的文件夹。这些文件夹中的文件如果发生变更，它们会保持本地机器与 Homestead 环境之间同步。你可以根据需要配置多个共享文件夹：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">folders:</span><br><span class="line">    - map: ~/code/     // 本地代码根目录</span><br><span class="line">      to: /home/vagrant/code // 虚拟机代码根目录</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置-Nginx-站点"><a href="#配置-Nginx-站点" class="headerlink" title="配置 Nginx 站点"></a>配置 Nginx 站点</h3><p>对 Nginx 不熟悉？没关系。 sites 功能可以让你在 Homestead 上轻松的映射一个 “域名” 到一个文件夹。在 Homestead.yaml 文件中包含了一个简单的站点配置示例。同样，您可以根据需要为您的 Homestead 环境添加很多的站点。Homestead 可以为你正在开发的每个 Laravel 项目提供一个方便的虚拟化环境：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sites:</span><br><span class="line">    - map: homestead.test</span><br><span class="line">      to: /home/vagrant/code/project1/public</span><br><span class="line">      php: "7.1"  // 指定php版本</span><br></pre></td></tr></table></figure>
-<p>如果你在 Homestead 虚拟机启动后更改了 sites 选项，你需要再次运行 vagrant reload –provision 命令去更新虚拟机上的 Nginx 配置</p>
-<h3 id="主机名解析"><a href="#主机名解析" class="headerlink" title="主机名解析#"></a>主机名解析#</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">192.168.10.10 homestead.test</span><br></pre></td></tr></table></figure>
-
-<h3 id="Vagrant常用命令"><a href="#Vagrant常用命令" class="headerlink" title="Vagrant常用命令"></a>Vagrant常用命令</h3><table>
-<thead>
-<tr>
-<th align="left">命令行</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">vagrant init</td>
-<td align="left">初始化 vagrant</td>
-</tr>
-<tr>
-<td align="left">vagrant up</td>
-<td align="left">启动 vagrant</td>
-</tr>
-<tr>
-<td align="left">vagrant halt</td>
-<td align="left">关闭 vagrant</td>
-</tr>
-<tr>
-<td align="left">vagrant ssh</td>
-<td align="left">通过 SSH 登录 vagrant（需要先启动 vagrant）</td>
-</tr>
-<tr>
-<td align="left">vagrant provision</td>
-<td align="left">重新应用更改 vagrant 配置</td>
-</tr>
-<tr>
-<td align="left">vagrant destroy</td>
-<td align="left">删除 vagrant</td>
-</tr>
-</tbody></table>
-
-        <div id="aplayer-cNWEFoGk" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
-            <pre class="aplayer-lrc-content"></pre>
-        </div>
-        <script>
-          var ap = new APlayer({
-            element: document.getElementById("aplayer-cNWEFoGk"),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: {
-              title: "成都",
-              author: "赵雷",
-              url: "http://lc-bgmRoaUg.cn-n1.lcfile.com/67ae134fe0f9bf6f0476/%E8%B5%B5%E9%9B%B7%20-%20%E6%88%90%E9%83%BD.mp3",
-              pic: "http://lc-bgmRoaUg.cn-n1.lcfile.com/45d2d6f0dc388b721524/%E6%88%90%E9%83%BD.jpg",
-              lrc: ""
-            }
-          });
-          window.aplayers || (window.aplayers = []);
-          window.aplayers.push(ap);
-        </script>]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>mac安装Homestead</title>
+      <link href="/2020/08/30/homestaed-vagrant/"/>
+      <url>/2020/08/30/homestaed-vagrant/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>Laravel 致力于让整个 PHP 开发体验变的更愉快，包括你的本地开发环境。 Vagrant 提供了一种简单、优雅的方式来管理和配置虚拟主机。</p><h2 id="安装与设置"><a href="#安装与设置" class="headerlink" title="安装与设置"></a>安装与设置</h2><h3 id="1-安装VirtualBox-6-x"><a href="#1-安装VirtualBox-6-x" class="headerlink" title="1.安装VirtualBox 6.x"></a>1.安装VirtualBox 6.x</h3><p>下载<a href="https://download.virtualbox.org/virtualbox/6.1.12/VirtualBox-6.1.12-139181-OSX.dmg">VirtualBox</a></p><h3 id="2-安装Vagrant"><a href="#2-安装Vagrant" class="headerlink" title="2.安装Vagrant"></a>2.安装Vagrant</h3><p>下载<a href="https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.dmg">Vagrant</a></p><h3 id="3-安装-Homestead-Vagrant-Box"><a href="#3-安装-Homestead-Vagrant-Box" class="headerlink" title="3.安装 Homestead Vagrant Box"></a>3.安装 Homestead Vagrant Box</h3><p>一旦将 VirtualBox 和 Vagrant 都安装好之后，你可以在终端执行下面的命令将 laravel/homestead box 添加到 Vagrant 中安装。你可能需要几分钟的时间来下载 box，因为它取决于你的网络连接速度：</p><h4 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add laravel/homestead</span><br></pre></td></tr></table></figure><p>然后按3，选择virtualbox回车</p><h4 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h4><p>由于这个网络原因这个下载特别慢，提前把这个包放到百度放盘，可自行下载<br>链接: <a href="https://pan.baidu.com/s/1Cfk-KdFKY70ylGnP_Y-bkA">https://pan.baidu.com/s/1Cfk-KdFKY70ylGnP_Y-bkA</a>  密码: s71j<br>这个下载后解压进入当前目录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant box add metadata.json</span><br></pre></td></tr></table></figure><h3 id="安装-Homestead"><a href="#安装-Homestead" class="headerlink" title="安装 Homestead"></a>安装 Homestead</h3><p>你可以通过克隆代码来安装 Homestead。建议将代码克隆到你的「home」目录下的 Homestead 文件夹中，这样 Homestead box 就可以作为你的所有 Laravel 项目的主机：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/laravel/homestead.git ~/Homestead</span><br></pre></td></tr></table></figure><p>因为 Homestead 的 master 分支并不是稳定的，你应该使用打过标签的稳定版本。您可以在 GitHub Release Page 上找到最新的稳定版。或者，你可以查看包含最新稳定版本的 release 分支：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Homestead</span><br><span class="line"></span><br><span class="line">git checkout release</span><br></pre></td></tr></table></figure><p>一旦克隆 Homestead 代码完成以后，在 Homestead 目录中使用 bash init.sh 命令来创建 Homestead.yaml 配置文件。Homestead.yaml 文件将被放在 Homestead 目录中：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash init.sh</span><br></pre></td></tr></table></figure><h3 id="配置共享文件夹"><a href="#配置共享文件夹" class="headerlink" title="配置共享文件夹#"></a>配置共享文件夹#</h3><p>Homestead.yaml 文件的 folders 属性里列出了所有与 Homestead 环境共享的文件夹。这些文件夹中的文件如果发生变更，它们会保持本地机器与 Homestead 环境之间同步。你可以根据需要配置多个共享文件夹：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">folders:</span><br><span class="line">    - map: ~/code/     // 本地代码根目录</span><br><span class="line">      to: /home/vagrant/code // 虚拟机代码根目录</span><br></pre></td></tr></table></figure><h3 id="配置-Nginx-站点"><a href="#配置-Nginx-站点" class="headerlink" title="配置 Nginx 站点"></a>配置 Nginx 站点</h3><p>对 Nginx 不熟悉？没关系。 sites 功能可以让你在 Homestead 上轻松的映射一个 “域名” 到一个文件夹。在 Homestead.yaml 文件中包含了一个简单的站点配置示例。同样，您可以根据需要为您的 Homestead 环境添加很多的站点。Homestead 可以为你正在开发的每个 Laravel 项目提供一个方便的虚拟化环境：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sites:</span><br><span class="line">    - map: homestead.test</span><br><span class="line">      to: /home/vagrant/code/project1/public</span><br><span class="line">      php: "7.1"  // 指定php版本</span><br></pre></td></tr></table></figure><p>如果你在 Homestead 虚拟机启动后更改了 sites 选项，你需要再次运行 vagrant reload –provision 命令去更新虚拟机上的 Nginx 配置</p><h3 id="主机名解析"><a href="#主机名解析" class="headerlink" title="主机名解析#"></a>主机名解析#</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.10.10 homestead.test</span><br></pre></td></tr></table></figure><h3 id="Vagrant常用命令"><a href="#Vagrant常用命令" class="headerlink" title="Vagrant常用命令"></a>Vagrant常用命令</h3><table><thead><tr><th align="left">命令行</th><th align="left">说明</th></tr></thead><tbody><tr><td align="left">vagrant init</td><td align="left">初始化 vagrant</td></tr><tr><td align="left">vagrant up</td><td align="left">启动 vagrant</td></tr><tr><td align="left">vagrant halt</td><td align="left">关闭 vagrant</td></tr><tr><td align="left">vagrant ssh</td><td align="left">通过 SSH 登录 vagrant（需要先启动 vagrant）</td></tr><tr><td align="left">vagrant provision</td><td align="left">重新应用更改 vagrant 配置</td></tr><tr><td align="left">vagrant destroy</td><td align="left">删除 vagrant</td></tr></tbody></table>        <div id="aplayer-cNWEFoGk" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-cNWEFoGk"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "成都",              author: "赵雷",              url: "http://lc-bgmRoaUg.cn-n1.lcfile.com/67ae134fe0f9bf6f0476/%E8%B5%B5%E9%9B%B7%20-%20%E6%88%90%E9%83%BD.mp3",              pic: "http://lc-bgmRoaUg.cn-n1.lcfile.com/45d2d6f0dc388b721524/%E6%88%90%E9%83%BD.jpg",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script>]]></content>
+      
+      
       <categories>
-        <category>Homestead</category>
+          
+          <category> Homestead </category>
+          
       </categories>
-      <tags>
-        <tag>环境</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>开启mysql慢查询</title>
-    <url>/2020/08/28/mysql-slow/</url>
-    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MySQL的慢查询，全名是慢查询日志，是MySQL提供的一种日志记录，用来记录在MySQL中响应时间超过阀值的语句.</p>
-<h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><ul>
-<li>slow_query_log 慢查询开启状态</li>
-<li>slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）</li>
-<li>long_query_time 查询超过多少秒才记录</li>
-</ul>
-<h2 id="设置步骤"><a href="#设置步骤" class="headerlink" title="设置步骤"></a>设置步骤</h2><h3 id="1-查看慢查询的相关参数"><a href="#1-查看慢查询的相关参数" class="headerlink" title="1. 查看慢查询的相关参数"></a>1. 查看慢查询的相关参数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'slow_query%'</span>;</span></span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line">| Variable_name       | Value                             |</span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line">| slow_query_log      | OFF                               |</span><br><span class="line">| slow_query_log_file | /var/lib/mysql/homestead-slow.log |</span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'long_query_time'</span>;</span></span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Variable_name   | Value     |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| long_query_time | 10.000000 |</span><br><span class="line">+-----------------+-----------+</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-设置方法"><a href="#2-设置方法" class="headerlink" title="2.设置方法"></a>2.设置方法</h3><h4 id="方法一-全局变量设置"><a href="#方法一-全局变量设置" class="headerlink" title="方法一:全局变量设置"></a>方法一:全局变量设置</h4><p>将 slow_query_log 全局变量设置为“ON”状态</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global slow_query_log=<span class="string">'ON'</span>;</span></span><br></pre></td></tr></table></figure>
-
-<p>设置慢查询日志存放的位置</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global slow_query_log_file=<span class="string">'/usr/local/mysql/data/slow.log'</span>;</span></span><br></pre></td></tr></table></figure>
-
-<p>查询超过1秒就记录</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global long_query_time=1;</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>修改配置文件my.cnf，在[mysqld]下的下方加入</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">slow_query_log &#x3D; ON</span><br><span class="line">slow_query_log_file &#x3D; &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;slow.log</span><br><span class="line">long_query_time &#x3D; 1</span><br></pre></td></tr></table></figure>
-<h3 id="3-重新加载MySQL配置"><a href="#3-重新加载MySQL配置" class="headerlink" title="3.重新加载MySQL配置"></a>3.重新加载MySQL配置</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo service mysql reload</span><br></pre></td></tr></table></figure>
-<h3 id="4-查看设置后的参数"><a href="#4-查看设置后的参数" class="headerlink" title="4.查看设置后的参数"></a>4.查看设置后的参数</h3><p>修改完配置后要新开窗口去查看</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'slow_query%'</span>;</span></span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line">| Variable_name       | Value                          |</span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line">| slow_query_log      | ON                             |</span><br><span class="line">| slow_query_log_file | /usr/local/mysql/data/slow.log |</span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'long_query_time'</span>;</span></span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Variable_name   | Value    |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| long_query_time | 1.000000 |</span><br><span class="line">+-----------------+----------+</span><br></pre></td></tr></table></figure>
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-执行一条慢查询SQL语句"><a href="#1-执行一条慢查询SQL语句" class="headerlink" title="1.执行一条慢查询SQL语句"></a>1.执行一条慢查询SQL语句</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select sleep(2);</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-查看是否生成慢查询日志"><a href="#2-查看是否生成慢查询日志" class="headerlink" title="2.查看是否生成慢查询日志"></a>2.查看是否生成慢查询日志</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ls &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;slow.log</span><br></pre></td></tr></table></figure>
-<p>如果日志存在，MySQL开启慢查询设置成功！</p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> 环境 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>开启mysql慢查询</title>
+      <link href="/2020/08/28/mysql-slow/"/>
+      <url>/2020/08/28/mysql-slow/</url>
+      
+        <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>MySQL的慢查询，全名是慢查询日志，是MySQL提供的一种日志记录，用来记录在MySQL中响应时间超过阀值的语句.</p><h2 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h2><ul><li>slow_query_log 慢查询开启状态</li><li>slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）</li><li>long_query_time 查询超过多少秒才记录</li></ul><h2 id="设置步骤"><a href="#设置步骤" class="headerlink" title="设置步骤"></a>设置步骤</h2><h3 id="1-查看慢查询的相关参数"><a href="#1-查看慢查询的相关参数" class="headerlink" title="1. 查看慢查询的相关参数"></a>1. 查看慢查询的相关参数</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'slow_query%'</span>;</span></span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line">| Variable_name       | Value                             |</span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line">| slow_query_log      | OFF                               |</span><br><span class="line">| slow_query_log_file | /var/lib/mysql/homestead-slow.log |</span><br><span class="line">+---------------------+-----------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'long_query_time'</span>;</span></span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Variable_name   | Value     |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| long_query_time | 10.000000 |</span><br><span class="line">+-----------------+-----------+</span><br></pre></td></tr></table></figure><h3 id="2-设置方法"><a href="#2-设置方法" class="headerlink" title="2.设置方法"></a>2.设置方法</h3><h4 id="方法一-全局变量设置"><a href="#方法一-全局变量设置" class="headerlink" title="方法一:全局变量设置"></a>方法一:全局变量设置</h4><p>将 slow_query_log 全局变量设置为“ON”状态</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global slow_query_log=<span class="string">'ON'</span>;</span></span><br></pre></td></tr></table></figure><p>设置慢查询日志存放的位置</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global slow_query_log_file=<span class="string">'/usr/local/mysql/data/slow.log'</span>;</span></span><br></pre></td></tr></table></figure><p>查询超过1秒就记录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">set</span> global long_query_time=1;</span></span><br></pre></td></tr></table></figure><h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>修改配置文件my.cnf，在[mysqld]下的下方加入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">slow_query_log &#x3D; ON</span><br><span class="line">slow_query_log_file &#x3D; &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;slow.log</span><br><span class="line">long_query_time &#x3D; 1</span><br></pre></td></tr></table></figure><h3 id="3-重新加载MySQL配置"><a href="#3-重新加载MySQL配置" class="headerlink" title="3.重新加载MySQL配置"></a>3.重新加载MySQL配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysql reload</span><br></pre></td></tr></table></figure><h3 id="4-查看设置后的参数"><a href="#4-查看设置后的参数" class="headerlink" title="4.查看设置后的参数"></a>4.查看设置后的参数</h3><p>修改完配置后要新开窗口去查看</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'slow_query%'</span>;</span></span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line">| Variable_name       | Value                          |</span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line">| slow_query_log      | ON                             |</span><br><span class="line">| slow_query_log_file | /usr/local/mysql/data/slow.log |</span><br><span class="line">+---------------------+--------------------------------+</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show variables like <span class="string">'long_query_time'</span>;</span></span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Variable_name   | Value    |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| long_query_time | 1.000000 |</span><br><span class="line">+-----------------+----------+</span><br></pre></td></tr></table></figure><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="1-执行一条慢查询SQL语句"><a href="#1-执行一条慢查询SQL语句" class="headerlink" title="1.执行一条慢查询SQL语句"></a>1.执行一条慢查询SQL语句</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select sleep(2);</span></span><br></pre></td></tr></table></figure><h3 id="2-查看是否生成慢查询日志"><a href="#2-查看是否生成慢查询日志" class="headerlink" title="2.查看是否生成慢查询日志"></a>2.查看是否生成慢查询日志</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;slow.log</span><br></pre></td></tr></table></figure><p>如果日志存在，MySQL开启慢查询设置成功！</p>]]></content>
+      
+      
       <categories>
-        <category>mysql</category>
+          
+          <category> mysql </category>
+          
       </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>安装 Swoole</title>
-    <url>/2020/04/12/Swoole/</url>
-    <content><![CDATA[<p>以下以 <code>laravel</code> 官方推荐 <code>Homestead</code> 环境来举例</p>
-<p>根据 <code>Swoole</code> 文档，直接 <code>install</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pecl install swoole</span><br></pre></td></tr></table></figure>
-
-<p>默认是按照最新版的，如果有你的环境 <code>php</code> 不是最新，那需要按照 <code>PHP</code> 版本去安装</p>
-<p>下面是安装 <code>PHP</code> 是 7.2 版本的 swoole 的示例：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>也可指定版本：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pecl -d php_suffix&#x3D;7.2 install swoole-1.9.23</span><br></pre></td></tr></table></figure>
-
-<p>如果报错，则试下 root 权限</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure>
-
-<p>正常情况下这会就已经安装好了，修改下配置文件就可以了。但是我这一直报<code>ERROR: phpize faild</code></p>
-<p>我查找了好长时间才发现Homestead环境里的php默认没有<code>phpize</code> </p>
-<p>接下来只能重新安装php了，这是为了让phpize出来！因为不知道为什么现在homestead自带的没有</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install php7.2-dev</span><br></pre></td></tr></table></figure>
-
-<p>然后可能会下载不到资源，因为资源本身在国外。你需要修改下载源为国内的镜像源</p>
-<p>apt下载源的配置文件是</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;etc&#x2F;apt&#x2F;sources.list</span><br></pre></td></tr></table></figure>
-
-<p>为保险起见，修改文件前，先备份一下文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp &#x2F;etc&#x2F;apt&#x2F;sources.list  &#x2F;etc&#x2F;apt&#x2F;sources_bak.list</span><br></pre></td></tr></table></figure>
-
-<p>然后修改文件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;apt&#x2F;sources.list</span><br></pre></td></tr></table></figure>
-
-<p>将文件内容替换为（以清华源ipv6镜像站为例，其他国内镜像站类似）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-updates main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-security main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-security main restricted universe multiverse</span><br></pre></td></tr></table></figure>
-
-<p>然后更新一下源</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
-
-<p>安装的时候遇到提示都选择替换。</p>
-<p>安装完毕检查/usr/bin会发现这时phpize和它对应的版本。</p>
-<p>紧接着在执行安装<code>swoole</code>就可以了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure>
-
-<p>查找下 <code>php.ini</code> 的位置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">php -i |grep php.ini</span><br></pre></td></tr></table></figure>
-<p>然后在 <code>php.ini</code> 中增加, <code>cli</code>和<code>fpm</code> 都要修改下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">extension&#x3D;swoole.s</span><br></pre></td></tr></table></figure>
-
-<p>记得重启下<code>nginx</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;nginx restart</span><br></pre></td></tr></table></figure>
-
-<p>查看下是否已经成功加载了 <code>swoole</code></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">php -m | grep swoole</span><br></pre></td></tr></table></figure>]]></content>
-      <tags>
-        <tag>环境</tag>
-        <tag>Swoole</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>修改php-fpm和nginx运行用户</title>
-    <url>/2020/04/09/php-nginx/</url>
-    <content><![CDATA[<p><code>nginx</code>和<code>php-fpm</code>是<code>www-data</code>用户运行,想要修改为 <code>www</code> 用户运行</p>
-<h2 id="修改nginx"><a href="#修改nginx" class="headerlink" title="修改nginx"></a>修改nginx</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br><span class="line">sudo vim nginx.conf</span><br><span class="line"># 头部是这样</span><br><span class="line">user www-data;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid &#x2F;run&#x2F;nginx.pid;</span><br><span class="line">include &#x2F;etc&#x2F;nginx&#x2F;modules-enabled&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line"># 修改为</span><br><span class="line">user www;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid &#x2F;run&#x2F;nginx.pid;</span><br><span class="line">include &#x2F;etc&#x2F;nginx&#x2F;modules-enabled&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line"># 重启nginx</span><br><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="修改php-fpm"><a href="#修改php-fpm" class="headerlink" title="修改php-fpm"></a>修改php-fpm</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;php&#x2F;7.2&#x2F;fpm&#x2F;pool.d</span><br><span class="line">sudo vi www.conf</span><br><span class="line"># 找到</span><br><span class="line">user &#x3D; www-data</span><br><span class="line">group &#x3D; www-data</span><br><span class="line"></span><br><span class="line">listen.owner &#x3D; www-data</span><br><span class="line">listen.group &#x3D; www-data</span><br><span class="line"></span><br><span class="line"># 都改为改为</span><br><span class="line">user &#x3D; www</span><br><span class="line">group &#x3D; www</span><br><span class="line"></span><br><span class="line">listen.owner &#x3D; www</span><br><span class="line">listen.group &#x3D; www</span><br><span class="line"></span><br><span class="line">cd &#x2F;run&#x2F;php&#x2F;</span><br><span class="line">ls -al</span><br><span class="line"># 这个目录下面有两个文件</span><br><span class="line"># php7.2-fpm.pid和php7.2-fpm.sock</span><br><span class="line"># 修改这两个文件的权限</span><br><span class="line">sudo chown www:www php7.2-fpm.pid</span><br><span class="line">sudo chown www:www php7.2-fpm.sock</span><br><span class="line"></span><br><span class="line"># 重启php-fpm</span><br><span class="line">sudo service php7.2-fpm restart</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+        <tags>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>安装 Swoole</title>
+      <link href="/2020/04/12/Swoole/"/>
+      <url>/2020/04/12/Swoole/</url>
+      
+        <content type="html"><![CDATA[<p>以下以 <code>laravel</code> 官方推荐 <code>Homestead</code> 环境来举例</p><p>根据 <code>Swoole</code> 文档，直接 <code>install</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pecl install swoole</span><br></pre></td></tr></table></figure><p>默认是按照最新版的，如果有你的环境 <code>php</code> 不是最新，那需要按照 <code>PHP</code> 版本去安装</p><p>下面是安装 <code>PHP</code> 是 7.2 版本的 swoole 的示例：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure><ul><li>也可指定版本：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pecl -d php_suffix&#x3D;7.2 install swoole-1.9.23</span><br></pre></td></tr></table></figure><p>如果报错，则试下 root 权限</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure><p>正常情况下这会就已经安装好了，修改下配置文件就可以了。但是我这一直报<code>ERROR: phpize faild</code></p><p>我查找了好长时间才发现Homestead环境里的php默认没有<code>phpize</code> </p><p>接下来只能重新安装php了，这是为了让phpize出来！因为不知道为什么现在homestead自带的没有</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install php7.2-dev</span><br></pre></td></tr></table></figure><p>然后可能会下载不到资源，因为资源本身在国外。你需要修改下载源为国内的镜像源</p><p>apt下载源的配置文件是</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;apt&#x2F;sources.list</span><br></pre></td></tr></table></figure><p>为保险起见，修改文件前，先备份一下文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;etc&#x2F;apt&#x2F;sources.list  &#x2F;etc&#x2F;apt&#x2F;sources_bak.list</span><br></pre></td></tr></table></figure><p>然后修改文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;apt&#x2F;sources.list</span><br></pre></td></tr></table></figure><p>将文件内容替换为（以清华源ipv6镜像站为例，其他国内镜像站类似）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-updates main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-updates main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-security main restricted universe multiverse </span><br><span class="line"></span><br><span class="line"># deb-src https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubuntu&#x2F; xenial-security main restricted universe multiverse</span><br></pre></td></tr></table></figure><p>然后更新一下源</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure><p>安装的时候遇到提示都选择替换。</p><p>安装完毕检查/usr/bin会发现这时phpize和它对应的版本。</p><p>紧接着在执行安装<code>swoole</code>就可以了</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pecl -d php_suffix&#x3D;7.2 install swoole</span><br></pre></td></tr></table></figure><p>查找下 <code>php.ini</code> 的位置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -i |grep php.ini</span><br></pre></td></tr></table></figure><p>然后在 <code>php.ini</code> 中增加, <code>cli</code>和<code>fpm</code> 都要修改下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension&#x3D;swoole.s</span><br></pre></td></tr></table></figure><p>记得重启下<code>nginx</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;nginx restart</span><br></pre></td></tr></table></figure><p>查看下是否已经成功加载了 <code>swoole</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -m | grep swoole</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 环境 </tag>
+            
+            <tag> Swoole </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>修改php-fpm和nginx运行用户</title>
+      <link href="/2020/04/09/php-nginx/"/>
+      <url>/2020/04/09/php-nginx/</url>
+      
+        <content type="html"><![CDATA[<p><code>nginx</code>和<code>php-fpm</code>是<code>www-data</code>用户运行,想要修改为 <code>www</code> 用户运行</p><h2 id="修改nginx"><a href="#修改nginx" class="headerlink" title="修改nginx"></a>修改nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br><span class="line">sudo vim nginx.conf</span><br><span class="line"># 头部是这样</span><br><span class="line">user www-data;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid &#x2F;run&#x2F;nginx.pid;</span><br><span class="line">include &#x2F;etc&#x2F;nginx&#x2F;modules-enabled&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line"># 修改为</span><br><span class="line">user www;</span><br><span class="line">worker_processes auto;</span><br><span class="line">pid &#x2F;run&#x2F;nginx.pid;</span><br><span class="line">include &#x2F;etc&#x2F;nginx&#x2F;modules-enabled&#x2F;*.conf;</span><br><span class="line"></span><br><span class="line"># 重启nginx</span><br><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure><h2 id="修改php-fpm"><a href="#修改php-fpm" class="headerlink" title="修改php-fpm"></a>修改php-fpm</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;php&#x2F;7.2&#x2F;fpm&#x2F;pool.d</span><br><span class="line">sudo vi www.conf</span><br><span class="line"># 找到</span><br><span class="line">user &#x3D; www-data</span><br><span class="line">group &#x3D; www-data</span><br><span class="line"></span><br><span class="line">listen.owner &#x3D; www-data</span><br><span class="line">listen.group &#x3D; www-data</span><br><span class="line"></span><br><span class="line"># 都改为改为</span><br><span class="line">user &#x3D; www</span><br><span class="line">group &#x3D; www</span><br><span class="line"></span><br><span class="line">listen.owner &#x3D; www</span><br><span class="line">listen.group &#x3D; www</span><br><span class="line"></span><br><span class="line">cd &#x2F;run&#x2F;php&#x2F;</span><br><span class="line">ls -al</span><br><span class="line"># 这个目录下面有两个文件</span><br><span class="line"># php7.2-fpm.pid和php7.2-fpm.sock</span><br><span class="line"># 修改这两个文件的权限</span><br><span class="line">sudo chown www:www php7.2-fpm.pid</span><br><span class="line">sudo chown www:www php7.2-fpm.sock</span><br><span class="line"></span><br><span class="line"># 重启php-fpm</span><br><span class="line">sudo service php7.2-fpm restart</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>linux</category>
+          
+          <category> linux </category>
+          
       </categories>
-      <tags>
-        <tag>php</tag>
-        <tag>nginx</tag>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>六个鲜为人知的 Composer 命令</title>
-    <url>/2019/12/17/composer/</url>
-    <content><![CDATA[<p>Composer 是 PHP 的一个依赖管理工具。 如果你是一名 PHP 开发人员，那么你很可能每天都在使用它并且频繁的运行命令 <code>require</code>， <code>install</code> 和 <code>update</code>。也许你并没有意识到， 我们可以使用一些其他的 Composer 命令，来更加轻松的使用它。</p>
-<p>它有许多的命令可以使用，但今天我将分享我使用的并且每天都有帮助的 6 个命令。</p>
-<h2 id="show"><a href="#show" class="headerlink" title="show"></a>show</h2><p>先说下 <code>show</code> 命令。它允许您查看项目的所有已安装包(包括依赖项)，以及查看相关包的说明。所有这些信息都可以在Composer锁文件(composer.lock)中找到, 但是使用 <code>show</code> 命令相对来说是一种更简单、更方便的一种查看包信息的方法。</p>
-<p>要列出所有已安装的包及其版本号和说明，只需使用 <code>show</code>:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer show</span><br></pre></td></tr></table></figure>
-
-<p>有时候把这些信息用依赖关系树的形式查看会更容易理解， 可以通过 <code>--tree</code> or <code>-t</code> 参数:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer show -t</span><br></pre></td></tr></table></figure>
-
-<p>如果要筛选返回的包，可以使用通配符传递一个额外的字符串参数 <code>*</code>:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer show &#39;symfony&#x2F;*&#39;</span><br></pre></td></tr></table></figure>
-
-<p>这将返回所有已安装的symfony包。注意这里的引号, 如果您使用的是 bash shell，不需要加这个引号, 但是如果您使用的是 zsh 你不用引号的话就会报 ‘no matches found’ 错误</p>
-<p>如果要查看有关特定包的信息，需要完整包名:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer show laravel&#x2F;framework</span><br></pre></td></tr></table></figure>
-
-<p>这将向您显示安装的版本、它的许可证和依赖项以及它在本地安装的位置等信息。</p>
-<h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><p>如果您想知道安装特定软件包的原因，可以使用 <code>why</code> 命令来确定哪些依赖项需要它</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer why vlucas&#x2F;phpdotenv</span><br></pre></td></tr></table></figure>
-
-<p>why 为什么是depends命令的别名，但就我个人而言，我发现使用 <code>why</code> 更容易记住。您可以使用<code>--tree</code> 或 <code>-t</code>标志在依赖树中查看此信息：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer why vlucas&#x2F;phpdotenv -t</span><br></pre></td></tr></table></figure>
-
-<h2 id="why-not"><a href="#why-not" class="headerlink" title="why-not"></a>why-not</h2><p>有时，一个或多个已安装的软件包将阻止安装或更新软件包。 为了检查是哪些安装包，我们可以使用 <code>why-not</code> 命令<br>（别名为 <code>prohibits</code>）。 例如，Laravel 最近发布了一个新的5.8版本的框架; 我们可以使用 <code>why-not</code> 命令检查任何阻止我们更新 <code>laravel/framework</code> 的包：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer why-not laravel&#x2F;framework 5.8</span><br></pre></td></tr></table></figure>
-
-<p>同样，我们可以使用 –tree 或 -t 标记在依赖关系树中查看此信息：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer why-not laravel&#x2F;framework 5.8 -t</span><br></pre></td></tr></table></figure>
-
-<h2 id="outdated"><a href="#outdated" class="headerlink" title="outdated"></a>outdated</h2><p>在使用 <code>composer update</code> 命令前，你也许想检测一下已安装的包，哪些有可以升级的。这可以使用 <code>outdated</code> 命令。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer outdated</span><br></pre></td></tr></table></figure>
-
-<p>此命令是 <code>composer show -lo</code> 的别名之一。</p>
-<p>根据语义化的版本，返回着色的代码，来标明每个包的状态：</p>
-<ul>
-<li>Green:   当前安装包已是最新版本</li>
-<li>Yellow: 有可升级的更新, 但可能有不兼容的修改</li>
-<li>Red: 有可用的小版本升级 (一般是bug修复)</li>
-</ul>
-<p>如果希望高亮显示小的升级版本, 可以使用 <code>outdated</code> 命令，以<code>--minor-only</code> 或者 <code>-m</code> 参数 ：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer outdated -m</span><br></pre></td></tr></table></figure>
-
-<h2 id="status"><a href="#status" class="headerlink" title="status"></a>status</h2><p>我发现自己经常会使用 <code>install</code> 、<code>update</code> 命令的参数 <code>--prefer-source</code> 来处理源代码安装的依赖项。 然后，如果我修改了任何这些依赖项，我需要一种快速检查哪些包已被修改的方法。 <code>status</code> 命令提供了一种方便的方法。</p>
-<p>您可以使用 <code>--verbose</code> 或 <code>-v</code> 参数来查看本地修改的软件包和文件：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer status -v</span><br></pre></td></tr></table></figure>
-
-<h2 id="licenses"><a href="#licenses" class="headerlink" title="licenses"></a>licenses</h2><p>最后，知道您安装的每个软件包的许可证是非常有用的。 <code>Composer</code> 有一个方便的 <code>licenses</code> 命令，用于查询许可的完整列表：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">composer licenses</span><br></pre></td></tr></table></figure>
-
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> php </tag>
+            
+            <tag> nginx </tag>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>六个鲜为人知的 Composer 命令</title>
+      <link href="/2019/12/17/composer/"/>
+      <url>/2019/12/17/composer/</url>
+      
+        <content type="html"><![CDATA[<p>Composer 是 PHP 的一个依赖管理工具。 如果你是一名 PHP 开发人员，那么你很可能每天都在使用它并且频繁的运行命令 <code>require</code>， <code>install</code> 和 <code>update</code>。也许你并没有意识到， 我们可以使用一些其他的 Composer 命令，来更加轻松的使用它。</p><p>它有许多的命令可以使用，但今天我将分享我使用的并且每天都有帮助的 6 个命令。</p><h2 id="show"><a href="#show" class="headerlink" title="show"></a>show</h2><p>先说下 <code>show</code> 命令。它允许您查看项目的所有已安装包(包括依赖项)，以及查看相关包的说明。所有这些信息都可以在Composer锁文件(composer.lock)中找到, 但是使用 <code>show</code> 命令相对来说是一种更简单、更方便的一种查看包信息的方法。</p><p>要列出所有已安装的包及其版本号和说明，只需使用 <code>show</code>:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer show</span><br></pre></td></tr></table></figure><p>有时候把这些信息用依赖关系树的形式查看会更容易理解， 可以通过 <code>--tree</code> or <code>-t</code> 参数:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer show -t</span><br></pre></td></tr></table></figure><p>如果要筛选返回的包，可以使用通配符传递一个额外的字符串参数 <code>*</code>:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer show &#39;symfony&#x2F;*&#39;</span><br></pre></td></tr></table></figure><p>这将返回所有已安装的symfony包。注意这里的引号, 如果您使用的是 bash shell，不需要加这个引号, 但是如果您使用的是 zsh 你不用引号的话就会报 ‘no matches found’ 错误</p><p>如果要查看有关特定包的信息，需要完整包名:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer show laravel&#x2F;framework</span><br></pre></td></tr></table></figure><p>这将向您显示安装的版本、它的许可证和依赖项以及它在本地安装的位置等信息。</p><h2 id="why"><a href="#why" class="headerlink" title="why"></a>why</h2><p>如果您想知道安装特定软件包的原因，可以使用 <code>why</code> 命令来确定哪些依赖项需要它</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer why vlucas&#x2F;phpdotenv</span><br></pre></td></tr></table></figure><p>why 为什么是depends命令的别名，但就我个人而言，我发现使用 <code>why</code> 更容易记住。您可以使用<code>--tree</code> 或 <code>-t</code>标志在依赖树中查看此信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer why vlucas&#x2F;phpdotenv -t</span><br></pre></td></tr></table></figure><h2 id="why-not"><a href="#why-not" class="headerlink" title="why-not"></a>why-not</h2><p>有时，一个或多个已安装的软件包将阻止安装或更新软件包。 为了检查是哪些安装包，我们可以使用 <code>why-not</code> 命令<br>（别名为 <code>prohibits</code>）。 例如，Laravel 最近发布了一个新的5.8版本的框架; 我们可以使用 <code>why-not</code> 命令检查任何阻止我们更新 <code>laravel/framework</code> 的包：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer why-not laravel&#x2F;framework 5.8</span><br></pre></td></tr></table></figure><p>同样，我们可以使用 –tree 或 -t 标记在依赖关系树中查看此信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer why-not laravel&#x2F;framework 5.8 -t</span><br></pre></td></tr></table></figure><h2 id="outdated"><a href="#outdated" class="headerlink" title="outdated"></a>outdated</h2><p>在使用 <code>composer update</code> 命令前，你也许想检测一下已安装的包，哪些有可以升级的。这可以使用 <code>outdated</code> 命令。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer outdated</span><br></pre></td></tr></table></figure><p>此命令是 <code>composer show -lo</code> 的别名之一。</p><p>根据语义化的版本，返回着色的代码，来标明每个包的状态：</p><ul><li>Green:   当前安装包已是最新版本</li><li>Yellow: 有可升级的更新, 但可能有不兼容的修改</li><li>Red: 有可用的小版本升级 (一般是bug修复)</li></ul><p>如果希望高亮显示小的升级版本, 可以使用 <code>outdated</code> 命令，以<code>--minor-only</code> 或者 <code>-m</code> 参数 ：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer outdated -m</span><br></pre></td></tr></table></figure><h2 id="status"><a href="#status" class="headerlink" title="status"></a>status</h2><p>我发现自己经常会使用 <code>install</code> 、<code>update</code> 命令的参数 <code>--prefer-source</code> 来处理源代码安装的依赖项。 然后，如果我修改了任何这些依赖项，我需要一种快速检查哪些包已被修改的方法。 <code>status</code> 命令提供了一种方便的方法。</p><p>您可以使用 <code>--verbose</code> 或 <code>-v</code> 参数来查看本地修改的软件包和文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer status -v</span><br></pre></td></tr></table></figure><h2 id="licenses"><a href="#licenses" class="headerlink" title="licenses"></a>licenses</h2><p>最后，知道您安装的每个软件包的许可证是非常有用的。 <code>Composer</code> 有一个方便的 <code>licenses</code> 命令，用于查询许可的完整列表：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer licenses</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>composer</category>
+          
+          <category> composer </category>
+          
       </categories>
-      <tags>
-        <tag>composer</tag>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>my-first-blog</title>
-    <url>/2019/12/05/my-first-blog/</url>
-    <content><![CDATA[<p>使用github pages服务搭建博客的好处有：</p>
-<ol>
-<li>全是静态文件，访问速度快；</li>
-<li>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</li>
-<li>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</li>
-</ol>
-<a id="more"></a>
-
-<ol start="4">
-<li>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</li>
-<li>博客内容可以轻松打包、转移、发布到其它平台；</li>
-<li>等等；</li>
-</ol>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> composer </tag>
+            
+            <tag> php </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>my-first-blog</title>
+      <link href="/2019/12/05/my-first-blog/"/>
+      <url>/2019/12/05/my-first-blog/</url>
+      
+        <content type="html"><![CDATA[<p>使用github pages服务搭建博客的好处有：</p><ol><li>全是静态文件，访问速度快；</li><li>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</li><li>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</li></ol><a id="more"></a><ol start="4"><li>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</li><li>博客内容可以轻松打包、转移、发布到其它平台；</li><li>等等；</li></ol>]]></content>
+      
+      
       <categories>
-        <category>默认分类</category>
+          
+          <category> 默认分类 </category>
+          
       </categories>
-  </entry>
+      
+      
+    </entry>
+    
+    
+  
+  
 </search>
