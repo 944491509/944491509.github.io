@@ -3,7 +3,7 @@
   <entry>
     <title>mac安装Homestead</title>
     <url>/2020/08/30/homestaed-vagrant/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Laravel 致力于让整个 PHP 开发体验变的更愉快，包括你的本地开发环境。 Vagrant 提供了一种简单、优雅的方式来管理和配置虚拟主机。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><p>Laravel 致力于让整个 PHP 开发体验变的更愉快，包括你的本地开发环境。 Vagrant 提供了一种简单、优雅的方式来管理和配置虚拟主机。</p>
 <h2 id="安装与设置"><a href="#安装与设置" class="headerlink" title="安装与设置"></a>安装与设置</h2><h3 id="1-安装VirtualBox-6-x"><a href="#1-安装VirtualBox-6-x" class="headerlink" title="1.安装VirtualBox 6.x"></a>1.安装VirtualBox 6.x</h3><p>下载<a href="https://download.virtualbox.org/virtualbox/6.1.12/VirtualBox-6.1.12-139181-OSX.dmg">VirtualBox</a></p>
 <h3 id="2-安装Vagrant"><a href="#2-安装Vagrant" class="headerlink" title="2.安装Vagrant"></a>2.安装Vagrant</h3><p>下载<a href="https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.dmg">Vagrant</a></p>
 <h3 id="3-安装-Homestead-Vagrant-Box"><a href="#3-安装-Homestead-Vagrant-Box" class="headerlink" title="3.安装 Homestead Vagrant Box"></a>3.安装 Homestead Vagrant Box</h3><p>一旦将 VirtualBox 和 Vagrant 都安装好之后，你可以在终端执行下面的命令将 laravel/homestead box 添加到 Vagrant 中安装。你可能需要几分钟的时间来下载 box，因为它取决于你的网络连接速度：</p>
@@ -60,7 +60,27 @@
 <td align="left">删除 vagrant</td>
 </tr>
 </tbody></table>
-]]></content>
+
+        <div id="aplayer-cNWEFoGk" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">
+            <pre class="aplayer-lrc-content"></pre>
+        </div>
+        <script>
+          var ap = new APlayer({
+            element: document.getElementById("aplayer-cNWEFoGk"),
+            narrow: false,
+            autoplay: false,
+            showlrc: false,
+            music: {
+              title: "成都",
+              author: "赵雷",
+              url: "http://lc-bgmRoaUg.cn-n1.lcfile.com/67ae134fe0f9bf6f0476/%E8%B5%B5%E9%9B%B7%20-%20%E6%88%90%E9%83%BD.mp3",
+              pic: "http://lc-bgmRoaUg.cn-n1.lcfile.com/45d2d6f0dc388b721524/%E6%88%90%E9%83%BD.jpg",
+              lrc: ""
+            }
+          });
+          window.aplayers || (window.aplayers = []);
+          window.aplayers.push(ap);
+        </script>]]></content>
       <categories>
         <category>Homestead</category>
       </categories>
